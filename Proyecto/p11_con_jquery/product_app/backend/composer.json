@@ -1,0 +1,16 @@
+{
+    "name": "rojas/backend",
+    "description": "",
+    "authors": [
+        {
+            "name": "javeth",
+            "email": "rojasdiego133@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "TECWEB\\MYAPI\\": "myapi/"
+        }
+    }
+}
