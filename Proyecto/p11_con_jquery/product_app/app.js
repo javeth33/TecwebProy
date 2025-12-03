@@ -26,7 +26,7 @@ $(document).ready(function() {
         }
     });
 
-    // --- GUARDAR RECURSO (NUEVO O EDITAR) ---
+    // --- GUARDAR O EDITAR RECURSO ---
     $('#task-form').submit(function(e) {
         e.preventDefault();
 
@@ -45,8 +45,8 @@ $(document).ready(function() {
             formData.append('archivo', $('#file')[0].files[0]);
         }
 
-        // Si es edición usamos edit, si es nuevo usamos resource-add
-        // NOTA: Asegúrate de tener product-edit.php configurado también si vas a editar
+        // DECISIÓN CLAVE: ¿Es nuevo o es edición?
+        // Si edit es true, usamos product-edit.php. Si es false, resource-add.php
         let url = edit === false ? 'backend/resource-add.php' : 'backend/product-edit.php';
 
         $.ajax({
@@ -59,9 +59,15 @@ $(document).ready(function() {
                 console.log(response);
                 let res = JSON.parse(response);
                 alert(res.message); 
-                fetchTasks();
+                
+                fetchTasks(); // Recargar la lista
+                
+                // Resetear el formulario y el estado
                 $('#task-form').trigger('reset');
-                edit = false; // Resetear bandera de edición
+                edit = false; 
+                $('.card-header').text('Nuevo Recurso Digital');
+                $('button[type="submit"]').text('Guardar Recurso');
+                $('button[type="submit"]').removeClass('btn-warning').addClass('btn-primary');
             }
         });
     });
@@ -75,14 +81,14 @@ $(document).ready(function() {
                 let tasks = JSON.parse(response);
                 let template = '';
                 tasks.forEach(task => {
-                    // Generar enlace de descarga
-                    // IMPORTANTE: Asegúrate que la carpeta uploads existe
                     let fileLink = `uploads/${task.ruta_archivo}`;
                     
                     template += `
                         <tr taskId="${task.id}">
                             <td>${task.id}</td>
-                            <td><a href="#" class="task-item">${task.nombre}</a></td>
+                            <td>
+                                <a href="#" class="task-item">${task.nombre}</a>
+                            </td>
                             <td>${task.autor}</td>
                             <td>${task.fecha_creacion}</td>
                             <td>
@@ -100,6 +106,32 @@ $(document).ready(function() {
             }
         });
     }
+
+    // --- MODO EDICIÓN: LLENAR FORMULARIO ---
+    $(document).on('click', '.task-item', function() {
+        let element = $(this)[0].parentElement.parentElement;
+        let id = $(element).attr('taskId');
+        
+        // Pedimos los datos al servidor
+        $.post('backend/product-single.php', {id}, function(response) {
+            const task = JSON.parse(response);
+            
+            // Llenamos los campos
+            $('#name').val(task.nombre);
+            $('#author').val(task.autor);
+            $('#department').val(task.departamento);
+            $('#company').val(task.empresa);
+            $('#date').val(task.fecha_creacion); // Asegúrate que en la BD se llame fecha_creacion
+            $('#description').val(task.descripcion);
+            $('#taskId').val(task.id);
+            
+            // Cambiamos el estado a "Editando"
+            edit = true;
+            $('.card-header').text('Editando: ' + task.nombre);
+            $('button[type="submit"]').text('Actualizar (Subir archivo para reemplazar)');
+            $('button[type="submit"]').removeClass('btn-primary').addClass('btn-warning');
+        });
+    });
 
     // --- ELIMINAR RECURSO ---
     $(document).on('click', '.task-delete', function() {
