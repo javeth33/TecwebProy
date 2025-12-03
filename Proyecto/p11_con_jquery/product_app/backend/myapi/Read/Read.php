@@ -14,7 +14,7 @@ class Read extends DataBase {
     // LISTAR TODO
     public function list() {
         $this->response = array();
-        // Consultamos la tabla RECURSOS
+        // SQL corregido para tabla recursos
         if ($result = $this->conexion->query("SELECT * FROM recursos WHERE eliminado = 0")) {
             $rows = $result->fetch_all(MYSQLI_ASSOC);
             if(!is_null($rows)){
@@ -26,11 +26,17 @@ class Read extends DataBase {
         }
     }
 
-    // BUSCAR
+    // BUSCAR (Aquí estaba el fallo principal)
     public function search($search) {
         $this->response = array();
-        // Buscamos en nombre, autor o descripción
-        $sql = "SELECT * FROM recursos WHERE (id = '{$search}' OR nombre LIKE '%{$search}%' OR autor LIKE '%{$search}%' OR descripcion LIKE '%{$search}%') AND eliminado = 0";
+        
+        // CORRECCIÓN: Buscamos en 'recursos' y en sus campos reales (nombre, autor, descripcion)
+        $sql = "SELECT * FROM recursos 
+                WHERE (id LIKE '%{$search}%' 
+                    OR nombre LIKE '%{$search}%' 
+                    OR autor LIKE '%{$search}%' 
+                    OR descripcion LIKE '%{$search}%') 
+                AND eliminado = 0";
         
         if ($result = $this->conexion->query($sql)) {
             $rows = $result->fetch_all(MYSQLI_ASSOC);
@@ -47,16 +53,14 @@ class Read extends DataBase {
         }
     }
     
-    // --- ESTA ES LA FUNCIÓN NUEVA QUE NECESITAS PARA EDITAR ---
+    // Función para obtener un solo recurso (usada en Editar)
     public function single($id) {
         $this->response = array();
-        // Buscamos por ID en la tabla recursos
         $sql = "SELECT * FROM recursos WHERE id = {$id}";
         
         if ($result = $this->conexion->query($sql)) {
             $row = $result->fetch_assoc();
             if(!is_null($row)){
-                // Codificamos cada campo para evitar problemas de caracteres
                 foreach($row as $key => $value) {
                     $this->response[$key] = utf8_encode($value);
                 }
@@ -67,6 +71,7 @@ class Read extends DataBase {
         }
     }
 
+    // (Opcional) singleByName si la usas en otro lado
     public function singleByName($name) {
         $this->response = array(); 
         $stmt = $this->conexion->prepare("SELECT * FROM recursos WHERE nombre = ? AND eliminado = 0");

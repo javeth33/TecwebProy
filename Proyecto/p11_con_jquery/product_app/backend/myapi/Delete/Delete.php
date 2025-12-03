@@ -18,7 +18,7 @@ class Delete extends DataBase {
         );
         
         if(!empty($id)) {
-            // Eliminado lógico en tabla RECURSOS
+            // CORRECCIÓN AQUÍ: Cambiamos 'productos' por 'recursos'
             $sql = "UPDATE recursos SET eliminado = 1 WHERE id = {$id}";
             
             if($this->conexion->query($sql)){

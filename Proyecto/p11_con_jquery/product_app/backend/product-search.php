@@ -1,15 +1,14 @@
 <?php
+    use TECWEB\MYAPI\Read\Read;
     require_once __DIR__ . '/vendor/autoload.php';
 
-    // Usar el namespace de la clase Read
-    use TECWEB\MYAPI\Read\Read;
+    // CORRECCIÓN: Conectamos a 'Proyec' (antes decía marketzone)
+    $read = new Read('Proyec');
 
-    $prodObj = new Read('Proyec', 'root', '');
-
-    if( isset($_GET['search']) ) {
-        $search = $_GET['search'];
-        $prodObj->search($search);
+    if(isset($_POST['search'])) {
+        $search = $_POST['search'];
+        $read->search($search);
     }
-    
-    echo $prodObj->getData();
+
+    echo $read->getData();
 ?>

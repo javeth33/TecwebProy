@@ -14,15 +14,44 @@ $(document).ready(function() {
                 success: function (response) {
                     if(!response.error) {
                         let tasks = JSON.parse(response);
+                        
+                        // 1. Ocultamos la caja de sugerencias (ya no la necesitamos si filtramos la tabla)
+                        $('#task-result').hide();
+                        
+                        // 2. Construimos las filas de la tabla con los resultados encontrados
                         let template = '';
                         tasks.forEach(task => {
-                            template += `<li><a href="#" class="task-item">${task.nombre}</a></li>` 
+                            let fileLink = `uploads/${task.ruta_archivo}`;
+                            
+                            template += `
+                                <tr taskId="${task.id}">
+                                    <td>${task.id}</td>
+                                    <td>
+                                        <a href="#" class="task-item">${task.nombre}</a>
+                                    </td>
+                                    <td>${task.autor}</td>
+                                    <td>${task.fecha_creacion}</td>
+                                    <td>
+                                        <a href="${fileLink}" target="_blank" class="btn btn-sm btn-info">
+                                            Descargar ${task.tipo_archivo}
+                                        </a>
+                                        <button class="task-delete btn btn-danger btn-sm">
+                                            Eliminar
+                                        </button>
+                                    </td>
+                                </tr>
+                            `;
                         });
-                        $('#task-result').show();
-                        $('#container').html(template);
+                        
+                        // 3. Actualizamos la tabla principal
+                        $('#tasks').html(template);
                     }
                 } 
             })
+        } else {
+            // Si borras el texto de búsqueda, volvemos a cargar toda la lista
+            fetchTasks();
+            $('#task-result').hide();
         }
     });
 
