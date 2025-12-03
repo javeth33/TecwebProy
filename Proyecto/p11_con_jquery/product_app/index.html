@@ -1,111 +1,54 @@
-
 <!DOCTYPE html>
-<html lang="en">
-  <head>
+<html lang="es">
+<head>
     <meta charset="UTF-8">
-    <title>Gestión de Recursos Digitales</title>
+    <title>Repositorio Público</title>
     <link rel="stylesheet" href="https://bootswatch.com/4/lux/bootstrap.min.css">
-  </head>
-  <body>
+    <style>
+        .icon-col { font-size: 1.5rem; text-align: center; vertical-align: middle !important; }
+        .btn-download { width: 100%; }
+    </style>
+</head>
+<body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="#">Dashboard Recursos</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ml-auto">
-          <form class="form-inline my-2 my-lg-0">
-            <input name="search" id="search" class="form-control mr-sm-2" type="search" placeholder="Buscar recurso..." aria-label="Search">
-            <button class="btn btn-success my-2 my-sm-0" type="submit">Buscar</button>
-          </form>
-      </div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">Recursos Digitales</a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="btn btn-secondary btn-sm" href="login.html">Soy Administrador</a>
+                </li>
+            </ul>
+        </div>
     </nav>
 
     <div class="container p-4">
-      <div class="row">
-        
-        <div class="col-md-5">
-          <div class="card">
-            <div class="card-header bg-primary text-white">
-               Nuevo Recurso Digital
-            </div>
-            <div class="card-body">
-              <form id="task-form" enctype="multipart/form-data">
-                
-                <input type="hidden" id="taskId">
-
-                <div class="form-group">
-                  <label>Nombre del Recurso</label>
-                  <input type="text" id="name" placeholder="Ej: Manual de Usuario" class="form-control" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Autor</label>
-                  <input type="text" id="author" placeholder="Ej: Juan Pérez" class="form-control" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Departamento</label>
-                  <input type="text" id="department" placeholder="Ej: Sistemas" class="form-control">
-                </div>
-
-                <div class="form-group">
-                    <label>Empresa / Institución</label>
-                  <input type="text" id="company" placeholder="Ej: UAP" class="form-control">
-                </div>
-
-                <div class="form-group">
-                    <label>Fecha de Creación</label>
-                  <input type="date" id="date" class="form-control" required>
-                </div>
-
-                <div class="form-group">
-                  <label for="file">Archivo de soporte:</label>
-                  <input type="file" id="file" name="archivo" class="form-control" required>
-                </div>
-
-                <div class="form-group">
-                  <textarea id="description" cols="30" rows="4" class="form-control" placeholder="Descripción breve del recurso..."></textarea>
-                </div>
-
-                <button type="submit" class="btn btn-primary btn-block text-center">
-                  Guardar Recurso
-                </button>
-              </form>
-            </div>
-          </div>
+        <div class="jumbotron">
+            <h1 class="display-4">Bienvenido</h1>
+            <p class="lead">Busca y descarga recursos de soporte para programadores.</p>
+            <hr class="my-4">
+            <input type="search" id="search-input" class="form-control form-control-lg" placeholder="¿Qué recurso buscas hoy?">
         </div>
 
-        <div class="col-md-7">
-          <div class="card my-4" id="task-result">
-            <div class="card-body">
-              <ul id="container"></ul>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-hover table-bordered bg-white">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th style="width: 50px;">Tipo</th>
+                            <th>Nombre</th>
+                            <th>Autor</th>
+                            <th>Descripción</th>
+                            <th style="width: 120px;">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="catalogo-body"></tbody>
+                </table>
             </div>
-          </div>
-
-          <table class="table table-bordered table-sm">
-            <thead>
-              <tr>
-                <td>ID</td>
-                <td>Nombre</td>
-                <td>Autor</td>
-                <td>Fecha</td>
-                <td>Archivo</td>
-                <td>Acciones</td>
-              </tr>
-            </thead>
-            <tbody id="tasks"></tbody>
-          </table>
         </div>
-      </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    
-    <script src="app.js"></script>
-  </body>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="app-public.js"></script>
+</body>
 </html>
