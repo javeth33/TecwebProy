@@ -29,6 +29,7 @@ $(document).ready(function() {
         });
     }
 
+    // Reemplaza tu función renderTable por esta:
     function renderTable(tasks) {
         let template = '';
         tasks.forEach(task => {
@@ -42,7 +43,10 @@ $(document).ready(function() {
                     <td>${task.autor}</td>
                     <td>${task.descripcion}</td>
                     <td>
-                        <a href="${fileLink}" target="_blank" class="btn btn-info btn-download">
+                        <a href="${fileLink}" 
+                            target="_blank" 
+                            class="btn btn-info btn-download"
+                            onclick="registerDownload(${task.id}, '${task.tipo_archivo}')">
                             Descargar
                         </a>
                     </td>
@@ -50,6 +54,14 @@ $(document).ready(function() {
             `;
         });
         $('#catalogo-body').html(template);
+    }
+
+    // --- AGREGA ESTA FUNCIÓN AL FINAL DE TU ARCHIVO ---
+    // Esta función avisa al backend sin detener la descarga
+    window.registerDownload = function(id, tipo) {
+        $.post('backend/register-download.php', {id: id, tipo: tipo}, function(response) {
+            console.log("Descarga registrada: " + response);
+        });
     }
 
     function getFileIcon(ext) {
