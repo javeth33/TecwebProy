@@ -1,7 +1,7 @@
 <?php
 namespace TECWEB\MYAPI\Delete; 
 
-use TECWEB\MYAPI\Core\DataBase;
+use TECWEB\MYAPI\Core\DataBase; 
 
 class Delete extends DataBase { 
  
@@ -11,24 +11,23 @@ class Delete extends DataBase {
         parent::__construct($user, $pass, $db);
     }
     
-    /**
-     * Lógica de product-delete.php
-     */
-    public  function delete($id) {
-        $data = [
+    public function delete($id) {
+        $this->response = array(
             'status'  => 'error',
             'message' => 'La consulta falló'
-        ];
-        if(isset($id)) {
-            $sql = "UPDATE productos SET eliminado=1 WHERE id = {$id}";
-            if ($this->conexion->query($sql)) {
-                $data['status'] =  "success";
-                $data['message'] =  "Producto eliminado";
+        );
+        
+        if(!empty($id)) {
+            // Eliminado lógico en tabla RECURSOS
+            $sql = "UPDATE recursos SET eliminado = 1 WHERE id = {$id}";
+            
+            if($this->conexion->query($sql)){
+                $this->response['status'] =  "success";
+                $this->response['message'] =  "Recurso eliminado correctamente";
             } else {
-                $data['message'] = "ERROR: No se ejecuto $sql. " . mysqli_error($this->conexion);
+                $this->response['message'] = "ERROR: No se ejecuto $sql. " . mysqli_error($this->conexion);
             }
         }
-        $this->response = $data;
     }
     
     public function getData() {

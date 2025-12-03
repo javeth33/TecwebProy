@@ -4,7 +4,7 @@
     // Usar el namespace de la clase Read
     use TECWEB\MYAPI\Read\Read;
 
-    $prodObj = new Read('marketzone', 'root', '');
+    $prodObj = new Read('Proyec', 'root', '');
     $prodObj->list();
 
     echo $prodObj->getData();

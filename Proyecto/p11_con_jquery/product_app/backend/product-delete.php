@@ -1,15 +1,29 @@
 <?php
-    require_once __DIR__ . '/vendor/autoload.php';
+namespace TECWEB\MYAPI\Core;
 
-    // Usar el namespace de la clase Delete
-    use TECWEB\MYAPI\Delete\Delete;
+abstract class DataBase {
+    protected $conexion;
 
-    $prodObj = new Delete('marketzone', 'root', '');
+    // El constructor recibe los datos que le mandas desde Delete, Create, etc.
+    public function __construct($user, $pass, $db) {
+        $this->conexion = @mysqli_connect(
+            'localhost',
+            $user, // Recibe 'root'
+            $pass, // Recibe ''
+            $db    // Recibe 'Proyec'
+        );
 
-    if( isset($_GET['id']) ) {
-        $id = $_GET['id'];
-        $prodObj->delete($id);
+        if(!$this->conexion) {
+            die('¡Base de datos NO conectada! Error: ' . mysqli_connect_error());
+        }
+        
+        $this->conexion->set_charset("utf8"); 
     }
-    
-    echo $prodObj->getData();
+
+    public function __destruct() {
+        if ($this->conexion) {
+            $this->conexion->close();
+        }
+    }
+}
 ?>

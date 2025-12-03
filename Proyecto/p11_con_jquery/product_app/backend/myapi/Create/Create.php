@@ -11,23 +11,16 @@ class Create extends DataBase {
         parent::__construct($user, $pass, $db);
     }
     
-    /**
-     * Lógica de product-add.php
-     */
     public function add($jsonString) {
         $data = [ 
             'status'  => 'error',
-            'message' => 'Ya existe un recurso con ese nombre'
+            'message' => 'Error al intentar agregar el recurso'
         ];
         
         if(!empty($jsonString)) {
             $jsonOBJ = json_decode($jsonString);
             
-            // 1. Validar si ya existe (opcional, por ahora lo comentamos o lo ajustas)
-            // $sql_check = "SELECT * FROM recursos WHERE nombre = '{$jsonOBJ->nombre}' AND eliminado = 0";
-            
-            // 2. Insertar en la tabla RECURSOS
-            // Fíjate que usamos los campos que definimos en el Paso 1
+            // Insertamos en la tabla RECURSOS
             $sql = "INSERT INTO recursos (nombre, autor, departamento, empresa, fecha_creacion, descripcion, ruta_archivo, tipo_archivo, eliminado) 
                     VALUES (
                         '{$jsonOBJ->nombre}', 

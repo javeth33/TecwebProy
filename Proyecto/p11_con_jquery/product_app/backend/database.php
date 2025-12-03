@@ -3,7 +3,7 @@
         'localhost',
         'root',
         '',
-        'marketzone'
+        'Proyec'
     );
 
     /**

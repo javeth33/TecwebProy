@@ -11,12 +11,11 @@ class Read extends DataBase {
         parent::__construct($user, $pass, $db);
     }
     
-    /**
-     * Lógica de product-list.php
-     */
+    // LISTAR TODO
     public function list() {
         $this->response = array();
-        if ($result = $this->conexion->query("SELECT * FROM productos WHERE eliminado = 0")) {
+        // Consultamos la tabla RECURSOS
+        if ($result = $this->conexion->query("SELECT * FROM recursos WHERE eliminado = 0")) {
             $rows = $result->fetch_all(MYSQLI_ASSOC);
             if(!is_null($rows)){
                 $this->response = $rows;
@@ -27,12 +26,11 @@ class Read extends DataBase {
         }
     }
 
-    /**
-     * Lógica de product-search.php
-     */
+    // BUSCAR
     public function search($search) {
         $this->response = array();
-        $sql = "SELECT * FROM productos WHERE (id = '{$search}' OR nombre LIKE '%{$search}%' OR marca LIKE '%{$search}%' OR detalles LIKE '%{$search}%') AND eliminado = 0";
+        // Buscamos en nombre, autor o descripción
+        $sql = "SELECT * FROM recursos WHERE (id = '{$search}' OR nombre LIKE '%{$search}%' OR autor LIKE '%{$search}%' OR descripcion LIKE '%{$search}%') AND eliminado = 0";
         
         if ($result = $this->conexion->query($sql)) {
             $rows = $result->fetch_all(MYSQLI_ASSOC);
@@ -49,10 +47,9 @@ class Read extends DataBase {
         }
     }
     
-    
     public function singleByName($name) {
         $this->response = array(); 
-        $stmt = $this->conexion->prepare("SELECT * FROM productos WHERE nombre = ? AND eliminado = 0");
+        $stmt = $this->conexion->prepare("SELECT * FROM recursos WHERE nombre = ? AND eliminado = 0");
         $stmt->bind_param("s", $name); 
         if ($stmt->execute()) {
             $result = $stmt->get_result();
@@ -63,7 +60,6 @@ class Read extends DataBase {
         }
         $stmt->close();
     }
-    
    
     public function getData() {
         return json_encode($this->response, JSON_PRETTY_PRINT);

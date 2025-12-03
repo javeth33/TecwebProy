@@ -5,7 +5,7 @@
     use TECWEB\MYAPI\Update\Update;
 
     // 3. Crear instancia
-    $prodObj = new Update('marketzone', 'root', '');
+    $prodObj = new Update('Proyec', 'root', '');
 
     // 4. Usar el método 'edit' como pide el UML
     $producto = file_get_contents('php://input');
