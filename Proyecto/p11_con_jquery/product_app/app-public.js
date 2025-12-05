@@ -29,7 +29,6 @@ $(document).ready(function() {
         });
     }
 
-    // Reemplaza tu función renderTable por esta:
     function renderTable(tasks) {
         let template = '';
         tasks.forEach(task => {
@@ -56,8 +55,6 @@ $(document).ready(function() {
         $('#catalogo-body').html(template);
     }
 
-    // --- AGREGA ESTA FUNCIÓN AL FINAL DE TU ARCHIVO ---
-    // Esta función avisa al backend sin detener la descarga
     window.registerDownload = function(id, tipo) {
         $.post('backend/register-download.php', {id: id, tipo: tipo}, function(response) {
             console.log("Descarga registrada: " + response);

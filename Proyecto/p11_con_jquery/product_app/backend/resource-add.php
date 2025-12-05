@@ -3,7 +3,6 @@ use TECWEB\MYAPI\Create\Create;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-// MODO DEPURACIÓN: Ver errores de PHP si los hay
 ini_set('display_errors', 0);
 error_reporting(E_ALL);
 
@@ -14,18 +13,15 @@ $response = array(
 );
 
 try {
-    // 1. INTENTAMOS CONECTAR A LA BD
-    // Asegúrate de pasar 'root' y '' si esa es tu config
+    
     $create = new Create('Proyec', 'root', ''); 
 } catch (Exception $e) {
     echo json_encode(['status' => 'error', 'message' => 'Error de conexión BD: ' . $e->getMessage()]);
     exit;
 }
 
-// 2. VERIFICAMOS SI LLEGÓ EL ARCHIVO
 if(isset($_FILES['archivo'])) {
     
-    // Verificamos si hubo error en la subida (código de error PHP)
     if ($_FILES['archivo']['error'] !== UPLOAD_ERR_OK) {
         $phpFileUploadErrors = [
             0 => 'There is no error, the file uploaded with success',
@@ -40,11 +36,9 @@ if(isset($_FILES['archivo'])) {
         $errorCode = $_FILES['archivo']['error'];
         $response['message'] = "Error PHP al subir: " . ($phpFileUploadErrors[$errorCode] ?? "Código $errorCode");
     } else {
-        // 3. PREPARAMOS CARPETA
-        // Sube un nivel (..) para salir de 'backend' y buscar 'uploads'
+        
         $uploadDir = '../uploads/'; 
         
-        // Si no existe, intentamos crearla
         if (!is_dir($uploadDir)) {
             if(!mkdir($uploadDir, 0777, true)){
                 echo json_encode(['status' => 'error', 'message' => 'No se pudo crear la carpeta uploads. Créala manualmente en la raíz.']);
@@ -52,14 +46,12 @@ if(isset($_FILES['archivo'])) {
             }
         }
 
-        // 4. MOVEMOS EL ARCHIVO
         $fileName = uniqid() . '_' . basename($_FILES['archivo']['name']);
         $targetPath = $uploadDir . $fileName;
         $fileType = pathinfo($targetPath, PATHINFO_EXTENSION);
 
         if(move_uploaded_file($_FILES['archivo']['tmp_name'], $targetPath)) {
             
-            // 5. GUARDAMOS EN BD
             $data = array(
                 'nombre' => $_POST['nombre'] ?? 'Sin nombre',
                 'autor' => $_POST['autor'] ?? 'Anonimo',
@@ -74,7 +66,6 @@ if(isset($_FILES['archivo'])) {
             $jsonString = json_encode($data);
             $create->add($jsonString);
             
-            // Devolvemos lo que diga la clase Create
             echo $create->getData();
             exit;
             

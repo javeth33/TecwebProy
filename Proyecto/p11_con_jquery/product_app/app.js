@@ -15,10 +15,8 @@ $(document).ready(function() {
                     if(!response.error) {
                         let tasks = JSON.parse(response);
                         
-                        // 1. Ocultamos la caja de sugerencias (ya no la necesitamos si filtramos la tabla)
                         $('#task-result').hide();
                         
-                        // 2. Construimos las filas de la tabla con los resultados encontrados
                         let template = '';
                         tasks.forEach(task => {
                             let fileLink = `uploads/${task.ruta_archivo}`;
@@ -43,23 +41,19 @@ $(document).ready(function() {
                             `;
                         });
                         
-                        // 3. Actualizamos la tabla principal
                         $('#tasks').html(template);
                     }
                 } 
             })
         } else {
-            // Si borras el texto de búsqueda, volvemos a cargar toda la lista
             fetchTasks();
             $('#task-result').hide();
         }
     });
 
-    // --- GUARDAR O EDITAR RECURSO ---
     $('#task-form').submit(function(e) {
         e.preventDefault();
 
-        // Usamos FormData para enviar archivos + texto
         let formData = new FormData();
         formData.append('nombre', $('#name').val());
         formData.append('autor', $('#author').val());
@@ -69,29 +63,26 @@ $(document).ready(function() {
         formData.append('descripcion', $('#description').val());
         formData.append('id', $('#taskId').val());
         
-        // Agregar archivo solo si el usuario seleccionó uno
         if($('#file')[0].files.length > 0) {
             formData.append('archivo', $('#file')[0].files[0]);
         }
 
-        // DECISIÓN CLAVE: ¿Es nuevo o es edición?
-        // Si edit es true, usamos product-edit.php. Si es false, resource-add.php
+        
         let url = edit === false ? 'backend/resource-add.php' : 'backend/product-edit.php';
 
         $.ajax({
             url: url,
             type: 'POST',
             data: formData,
-            contentType: false, // Necesario para enviar archivos
-            processData: false, // Necesario para enviar archivos
+            contentType: false, 
+            processData: false, 
             success: function(response) {
                 console.log(response);
                 let res = JSON.parse(response);
                 alert(res.message); 
                 
-                fetchTasks(); // Recargar la lista
+                fetchTasks(); 
                 
-                // Resetear el formulario y el estado
                 $('#task-form').trigger('reset');
                 edit = false; 
                 $('.card-header').text('Nuevo Recurso Digital');
@@ -141,20 +132,17 @@ $(document).ready(function() {
         let element = $(this)[0].parentElement.parentElement;
         let id = $(element).attr('taskId');
         
-        // Pedimos los datos al servidor
         $.post('backend/product-single.php', {id}, function(response) {
             const task = JSON.parse(response);
             
-            // Llenamos los campos
             $('#name').val(task.nombre);
             $('#author').val(task.autor);
             $('#department').val(task.departamento);
             $('#company').val(task.empresa);
-            $('#date').val(task.fecha_creacion); // Asegúrate que en la BD se llame fecha_creacion
+            $('#date').val(task.fecha_creacion); 
             $('#description').val(task.descripcion);
             $('#taskId').val(task.id);
             
-            // Cambiamos el estado a "Editando"
             edit = true;
             $('.card-header').text('Editando: ' + task.nombre);
             $('button[type="submit"]').text('Actualizar (Subir archivo para reemplazar)');
