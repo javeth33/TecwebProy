@@ -1,0 +1,107 @@
+/* 1. ESTILOS GENERALES */
+body {
+    background-color: #f4f6f9; /* Un gris muy suave para que resalte el contenido */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+}
+
+/* 2. NAVBAR (Barra de navegación) */
+.navbar {
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2); /* Sombra elegante */
+}
+.navbar-brand {
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* 3. TARJETAS (Cards) */
+.card {
+    border: none; /* Quitamos bordes duros */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Sombra suave */
+    transition: transform 0.2s, box-shadow 0.2s;
+    background-color: white;
+}
+
+/* Efecto al pasar el mouse por encima de una tarjeta (excepto en formularios) */
+.card-hover:hover {
+    transform: translateY(-5px); /* Se levanta un poco */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+.card-header {
+    border-radius: 10px 10px 0 0 !important;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* 4. TABLAS */
+.table {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden; /* Para que los bordes redondeados funcionen en la tabla */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.table thead th {
+    border-top: none;
+    background-color: #343a40; /* Dark */
+    color: white;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+/* Centrar verticalmente el contenido de las celdas */
+.table td, .table th {
+    vertical-align: middle !important;
+}
+
+/* Columna de Iconos */
+.icon-col {
+    font-size: 1.8rem;
+    text-align: center;
+    color: #555;
+}
+
+/* 5. LOGIN (Estilos específicos) */
+.login-body {
+    /* Fondo con degradado elegante */
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 400px;
+    padding: 10px;
+}
+
+/* 6. BOTONES */
+.btn {
+    border-radius: 20px; /* Botones redondeados modernos */
+    font-weight: 600;
+    padding: 8px 20px;
+    transition: all 0.3s ease;
+}
+
+.btn-download {
+    width: 100%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.btn:hover {
+    transform: scale(1.02); /* Efecto de "pulsar" leve */
+}
+
+/* 7. JUMBOTRON (Portada pública) */
+.jumbotron {
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    padding: 3rem 2rem;
+}
+

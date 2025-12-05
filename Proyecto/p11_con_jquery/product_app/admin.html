@@ -1,10 +1,10 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8">
-    <title>Gestión de Recursos Digitales</title>
+    <title>Dashboard - Gestión de Recursos</title>
     <link rel="stylesheet" href="https://bootswatch.com/4/lux/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
 
@@ -13,14 +13,23 @@
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
+
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
-          <form class="form-inline my-2 my-lg-0">
+          <form class="form-inline my-2 my-lg-0 mr-3">
             <input name="search" id="search" class="form-control mr-sm-2" type="search" placeholder="Buscar recurso..." aria-label="Search">
             <button class="btn btn-success my-2 my-sm-0" type="submit">Buscar</button>
           </form>
+          
+          <li class="nav-item">
+            <a class="btn btn-warning mr-2" href="reportes.html">📊 Reportes</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="btn btn-outline-light" href="index.html">Cerrar Sesión</a>
+          </li>
+        </ul>
       </div>
-      <a class="btn btn-warning ml-2" href="reportes.html">Ver Reportes y Gráficas</a>
     </nav>
 
     <div class="container p-4">
@@ -63,7 +72,8 @@
 
                 <div class="form-group">
                   <label for="file">Archivo de soporte:</label>
-                  <input type="file" id="file" name="archivo" class="form-control" required>
+                  <input type="file" id="file" name="archivo" class="form-control">
+                  <small class="form-text text-muted">Deja vacío si solo estás editando texto.</small>
                 </div>
 
                 <div class="form-group">
@@ -79,20 +89,20 @@
         </div>
 
         <div class="col-md-7">
-          <div class="card my-4" id="task-result">
+          <div class="card my-4" id="task-result" style="display:none;">
             <div class="card-body">
-              <ul id="container"></ul>
+              <ul id="container" style="list-style: none; padding: 0;"></ul>
             </div>
           </div>
 
-          <table class="table table-bordered table-sm">
+          <table class="table table-hover">
             <thead>
               <tr>
-                <td>ID</td>
-                <td>Nombre</td>
-                <td>Autor</td>
-                <td>Fecha</td>
-                <td>Archivo</td>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Autor</th>
+                <th>Fecha</th>
+                <th>Acciones</th>
               </tr>
             </thead>
             <tbody id="tasks"></tbody>
@@ -102,8 +112,8 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
     
     <script src="app.js"></script>
   </body>
